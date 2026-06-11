@@ -1,4 +1,3 @@
-
 <style>
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
@@ -12,7 +11,7 @@
     0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
     10% { opacity: 0.8; }
     90% { opacity: 0.4; }
-    100% { transform: translateY(700px) rotate(360deg); opacity: 0; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
   }
   @keyframes pulse {
     0%, 100% { transform: scale(1); }
@@ -41,24 +40,28 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* CORRECCIÓN: Asegura que el contenedor ocupe todo el alto dinámico del móvil */
   .wrap {
     position: relative;
     width: 100%;
-    min-height: 700px;
-    border-radius: 16px;
-    overflow: hidden;
+    min-height: 100vh; /* Cambiado a 100vh para llenar la pantalla */
+    min-height: 100dvh; /* dvh maneja mejor las barras de navegación de los móviles */
+    overflow-x: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: clamp(1rem, 4vw, 2rem) clamp(0.75rem, 3vw, 1.5rem);
+    padding: clamp(1.5rem, 5vw, 2.5rem) clamp(0.75rem, 3vw, 1.5rem);
+    background: #060418; /* Fondo de respaldo para evitar destellos blancos */
   }
 
+  /* CORRECCIÓN: El SVG ahora se estira correctamente sin importar las proporciones */
   .sky-bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
+    object-fit: cover; /* Fuerza al SVG a comportarse como un fondo fluido */
   }
 
   .petal {
@@ -75,22 +78,23 @@
   .card {
     position: relative;
     z-index: 2;
-    background: rgba(10, 8, 30, 0.58);
+    background: rgba(10, 8, 30, 0.65); /* Un poco más opaco para mejor lectura */
     border: 0.5px solid rgba(180,160,255,0.3);
     border-radius: 18px;
-    padding: clamp(1.5rem, 4vw, 2rem) clamp(1.2rem, 4vw, 1.8rem);
+    padding: clamp(1.5rem, 5vw, 2.2rem) clamp(1.2rem, 4vw, 1.8rem);
     width: 100%;
-    max-width: 380px;
+    max-width: 360px;
     text-align: center;
     animation: cardIn 1.2s ease both;
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
-  /* Photo area */
+  /* Área de la foto */
   .photo-area {
     position: relative;
-    width: 160px;
-    height: 160px;
+    width: 140px; /* Ajustado ligeramente para pantallas pequeñas */
+    height: 140px;
     margin: 0 auto 1.2rem;
     border-radius: 50%;
     border: 2px solid rgba(180,140,255,0.5);
@@ -122,7 +126,7 @@
   }
 
   .photo-placeholder span {
-    font-size: 28px;
+    font-size: 24px;
     opacity: 0.6;
   }
 
@@ -142,7 +146,7 @@
   }
 
   .heart-icon {
-    font-size: clamp(28px, 6vw, 36px);
+    font-size: clamp(24px, 5vw, 32px);
     animation: pulse 2.2s ease-in-out infinite, float 3s ease-in-out infinite;
     display: block;
     margin-bottom: 0.5rem;
@@ -164,9 +168,9 @@
   }
 
   .card-msg {
-    font-size: clamp(13px, 2.8vw, 14px);
+    font-size: clamp(12.5px, 2.8vw, 14px);
     color: #c8b8e8;
-    line-height: 1.85;
+    line-height: 1.8;
     margin-bottom: 1.1rem;
   }
 
@@ -193,12 +197,12 @@
   }
 
   .send-btn {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
     background: transparent;
     border: 0.5px solid rgba(180,160,255,0.4);
     color: #c9a0ff;
     font-size: clamp(12px, 2.5vw, 13px);
-    padding: 8px 20px;
+    padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.2s;
@@ -248,7 +252,6 @@
     <circle cx="290" cy="130" r="1.3" fill="#e8d0ff" style="animation: twinkle 2.2s ease-in-out infinite 1.4s;"/>
     <circle cx="540" cy="140" r="1.4" fill="white" style="animation: twinkle 3.6s ease-in-out infinite 0.7s;"/>
     <line x1="78" y1="48" x2="142" y2="80" stroke="white" stroke-width="0.8" stroke-opacity="0.45" style="animation: twinkle 5s ease-in-out infinite 2.2s;"/>
-    <rect x="0" y="560" width="700" height="140" fill="#120820" opacity="0.5"/>
   </svg>
 
   <span class="petal" style="left:6%; animation-duration:8s; animation-delay:0s;">✦</span>
@@ -257,7 +260,6 @@
   <span class="petal" style="left:88%; animation-duration:12s; animation-delay:2.2s;">✧</span>
 
   <div class="card">
-    <!-- Photo circle -->
     <div class="photo-area" id="photoArea">
       <input type="file" accept="image/*" id="fileInput" onchange="loadPhoto(event)"/>
       <div class="photo-placeholder" id="placeholder">
